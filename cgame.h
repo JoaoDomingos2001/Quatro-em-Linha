@@ -13,10 +13,13 @@ private:
     char matrix[6][7];
     char player; //char de identificação do jogador
     char nome_player[10]; //char para guardar no ficheiro o nome
+    char nome_player_versus[10];//char para guardar no ficheiro o nome do outrojogador
+    char nome_win[10]; // nome do jogador que ganhou
     int nivelPC; //nivel do PC
+    int nivel;
     int nJogadas; //numero de jogadas
     char primeiro; //primeiro a jogar
-
+    char versus; // modo do versus: pvp, pve, eve
 
 public:
     Cgame(){nJogadas=0; player='X'; LimpaTabela();}
@@ -49,7 +52,20 @@ public:
     void guardaJogo(); //guarda o jogo ao longo das rondas(ex. todos os movimentos feitos e o nome do player)
     bool continuaJogo(); //ve se o ficheiro tem algum jogo guardado e se tiver pergunta se quer jogar
 
-    void LimpaJogo();
+    void equalArray(char tab[], char arr[], int n);
+
+    int DefVersus();
+
+    int JogadaVersus1();
+    int JogadaVersus2();
+    int JogadaVersus3();
+
+    bool JogarVersus1(int);
+    bool JogarVersus2(int);
+    bool JogarVersus3(int);
+
+
+
 };
 
 #endif // CGAME_H

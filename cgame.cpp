@@ -45,51 +45,190 @@ void Cgame::Desenha(void){
 }
 
 int Cgame::DecideJogador(){
-    do{
-        Clear();
-        cout << "Quem faz a primeira jogada? " << endl;
-        cout << "1-Jogador" << endl;
-        cout << "2-Computador" << endl;
-        cout << "3-Aleatorio" << endl;
-        cout << "->";
-        cin >> primeiro;
-        primeiro -= '0';
-    }while(primeiro!=1 && primeiro!=2 && primeiro!=3);
-
-    if(primeiro==1){
-        player='X';
-        cout << "O " << nome_player << " joga primeiro" << endl;
-    }
-    else if(primeiro==2){
-        player='O';
-        cout << "O computador joga primeiro" << endl;
-    }
-    else{
-        int i=rand()%10+1;
-        if(i%2==0){
-            primeiro=1;
+    switch (versus) {
+    case '1'://pvp
+        do{
+            Clear();
+            cout << "Quem faz a primeira jogada? " << endl;
+            cout << "1-Jogador 1" << endl;
+            cout << "2-Jogador 2" << endl;
+            cout << "3-Aleatorio" << endl;
+            cout << "->";
+            cin >> primeiro;
+            //primeiro -= '0';
+        }while(primeiro!=1 && primeiro!=2 && primeiro!=3);
+        if(primeiro==1){
             player='X';
             cout << "O " << nome_player << " joga primeiro" << endl;
+            return primeiro;
         }
-        else {
-            primeiro=2;
+        else if(primeiro==2){
+            player='O';
+            cout << "O " << nome_player_versus << " joga primeiro" << endl;
+            return primeiro;
+        }
+        else{
+            int i=rand()%10+1;
+            if(i%2==0){
+                primeiro=1;
+                player='X';
+                cout << "O " << nome_player << " joga primeiro" << endl;
+                return primeiro;
+            }
+            else {
+                primeiro=2;
+                player='O';
+                cout << "O " << nome_player_versus << " joga primeiro" << endl;
+                return primeiro;
+            }
+        }
+        break;
+    case '2'://pve
+        do{
+            Clear();
+            cout << "Quem faz a primeira jogada? " << endl;
+            cout << "1-Jogador" << endl;
+            cout << "2-Computador" << endl;
+            cout << "3-Aleatorio" << endl;
+            cout << "->";
+            cin >> primeiro;
+            //primeiro -= '0';
+        }while(primeiro!=1 && primeiro!=2 && primeiro!=3);
+        if(primeiro==1){
+            player='X';
+            cout << "O " << nome_player << " joga primeiro" << endl;
+            return primeiro;
+        }
+        else if(primeiro==2){
             player='O';
             cout << "O computador joga primeiro" << endl;
+            return primeiro;
         }
+        else{
+            int i=rand()%10+1;
+            if(i%2==0){
+                primeiro=1;
+                player='X';
+                cout << "O " << nome_player << " joga primeiro" << endl;
+                return primeiro;
+            }
+            else {
+                primeiro=2;
+                player='O';
+                cout << "O Computador joga primeiro" << endl;
+                return primeiro;
+            }
+        }
+        break;
+    case '3': //eve
+        do{
+            Clear();
+            cout << "Quem faz a primeira jogada? " << endl;
+            cout << "1-Computador 1" << endl;
+            cout << "2-Computador 2" << endl;
+            cout << "3-Aleatorio" << endl;
+            cout << "->";
+            cin >> primeiro;
+            //primeiro -= '0';
+        }while(primeiro!=1 && primeiro!=2 && primeiro!=3);
+        if(primeiro==1){
+            player='X';
+            cout << "O Computador 1 joga primeiro" << endl;
+            return primeiro;
+        }
+        else if(primeiro==2){
+            player='O';
+            cout << "O Computador 2 joga primeiro" << endl;
+            return primeiro;
+        }
+        else{
+            int i=rand()%10+1;
+            if(i%2==0){
+                primeiro=1;
+                player='X';
+                cout << "O Computador 1 joga primeiro" << endl;
+                return primeiro;
+            }
+            else {
+                primeiro=2;
+                player='O';
+                cout << "O Computador 2 joga primeiro" << endl;
+                return primeiro;
+            }
+        }
+        break;
+    default:
+        cout << "ERRO!(DecideJogador)" << endl;
+        break;
     }
-    return primeiro;
+}
+
+int Cgame::DefVersus(){
+    do{
+        Clear();
+        cout << "Selecione o modo de jogo:" << endl;
+        cout << "(1) - Jogador VS Jogador" << endl;
+        cout << "(2) - Jogador VS Computador" << endl;
+        cout << "(3) - Computador VS Computador" << endl;
+        cout << "->";
+        cin >> versus;
+        //cout funciona
+        versus-='0'; //não está a funcionar n sei o porque
+    }while( versus!='1' && versus!='2' && versus!='3' );
+    return versus;
 }
 
 int Cgame::DefNivel(){
-    do{
-        cout << endl << "Selecione o modo de jogo:" << endl;
-        cout << "1-Elementar" << endl;
-        cout << "2-Basico" << endl;
-        cout << "3-Medio" << endl;
-        cout << "->";
-        cin >> nivelPC;
-    }while(nivelPC!=1 && nivelPC!=2 && nivelPC!=3);
-    return nivelPC;
+    switch (versus) {
+    case '1':
+        Clear();
+        cout << "Player 1: Digite o seu nome(maximo 10 caracteres): ";
+        cin.width(50);
+        cin >> nome_player;
+        cin.ignore(100,'\n');
+        cout << "Player 2: Digite o seu nome(maximo 10 caracteres): ";
+        cin.width(50);
+        cin >> nome_player_versus;
+        cin.ignore(100,'\n');
+        nivel=1;
+        return nivel;
+        break;
+    case '2':
+        cout << "Digite o seu nome(maximo 10 caracteres): ";
+        cin.width(50);
+        cin >> nome_player;
+        cin.ignore(100,'\n');
+        do{
+            Clear();
+            cout << "Selecione o nivel do Computador:" << endl;
+            cout << "1-Elementar" << endl;
+            cout << "2-Basico" << endl;
+            cout << "3-Medio" << endl;
+            cout << "4-Avancado(inc)" << endl;
+            cout << "->";
+            cin >> nivelPC;
+        }while(nivelPC!=1 && nivelPC!=2 && nivelPC!=3 && nivelPC!=4);
+        return nivelPC;
+        break;
+    case '3':
+        do{
+            Clear();
+            cout << "Selecione o nivel do Computador:" << endl;
+            cout << "1-Elementar" << endl;
+            cout << "2-Basico" << endl;
+            cout << "3-Medio" << endl;
+            cout << "4-Avancado(inc)" << endl;
+            cout << "->";
+            cin >> nivelPC;
+        }while(nivelPC!=1 && nivelPC!=2 && nivelPC!=3 && nivelPC!=4);
+        return nivelPC;
+        break;
+    default:
+        Clear();
+        cout << "ERRO!! (DEFnIVEL)" << endl;
+        break;
+    }
+
 }
 
 int Cgame::ReturnNivelPC(int a){
@@ -100,26 +239,60 @@ int Cgame::ReturnNivelPC(int a){
         return (Basico());
     case 3:
         return (Medio());
+    /*case 4:
+        return (Avancado());*/
     default:
         return -1;
     }
 }
 
 void Cgame::coutNivel(int aux){
-    switch (aux) {
-    case 1:
-        cout << endl << "Modo de Jogo: Elementar" << endl;
-        break;
-    case 2:
-        cout << endl << "Modo de Jogo: Basico" << endl;
-        break;
-    case 3:
-        cout << endl << "Modo de Jogo: Medio" << endl;
-        break;
-    default:
-        cout << endl << "ERRO! coutNivel" << endl;
-        break;
+    if(versus=='1'){ //pvp
+        switch (aux) {
+        case 1:
+            cout << endl << "Modo de Jogo: PvP" << endl;
+            break;
+        default:
+            cout << "ERRO!  coutNivel" << endl;
+        }
     }
+    else if(versus=='2'){ // pve
+        switch (aux) {
+        case 1:
+            cout << endl << "Modo de Jogo: Elementar" << endl;
+            break;
+        case 2:
+            cout << endl << "Modo de Jogo: Basico" << endl;
+            break;
+        case 3:
+            cout << endl << "Modo de Jogo: Medio" << endl;
+            break;
+        /*case 4:
+            cout << endl << "Modo de Jogo: Avancado" << endl;*/
+        default:
+            cout << endl << "ERRO!   coutNivel" << endl;
+            break;
+        }
+    }
+    else if(versus=='3'){ //eve
+        switch (aux) {
+        case 1:
+            cout << endl << "Modo de Jogo: Elementar" << endl;
+            break;
+        case 2:
+            cout << endl << "Modo de Jogo: Basico" << endl;
+            break;
+        case 3:
+            cout << endl << "Modo de Jogo: Medio" << endl;
+            break;
+        /*case 4:
+            cout << endl << "Modo de Jogo: Avancado" << endl;*/
+        default:
+            cout << endl << "ERRO!  coutNivel" << endl;
+            break;
+        }
+    }
+    else cout << "ERRO!   coutNivel" << endl;
 }
 
 void Cgame::ResetJogo(){
@@ -133,8 +306,14 @@ void Cgame::ResetJogo(){
             nJogadas=0;
             player='X';
             LimpaTabela();
-            nivelPC=DefNivel();
-            coutNivel(nivelPC);
+            if( versus=='2' || versus=='3' ){
+                nivelPC=DefNivel();
+                coutNivel(nivelPC);
+            }
+            else if( versus == '1' ){
+                nivel=DefNivel();
+                coutNivel(nivel);
+            }
             primeiro=DecideJogador();
             Jogar();
             ResetJogo();//12-05-21
@@ -142,44 +321,51 @@ void Cgame::ResetJogo(){
         }
         else{
             Clear();
-            return;
-        } //fecha o ciclo e vai para o return 0 do main
+            LimpaTabela();
+            return; //fecha o ciclo e vai para o return 0 do main
+        }
     }
 }
 
 void Cgame::Menu(void){
     Cgame player;
-    int i;
+    char i; // tentar se possivel transformar em char
     do{
         cout << "(1)-Jogar" << endl;
         cout << "(2)-HighScore" << endl;
         cout << "(3)-Sair" << endl;
         cout << "->";
         cin >> i;
-    }while(i!=1 && i!=2 && i!=3);
-
+    }while( i < '1' || i > '3' );
     switch (i) {
-    case 1: {
+    case '1': {
         Clear();
         bool continua=continuaJogo();
         if(continua==false){
-            cout << "Digite o seu nome(maximo 10 caracteres): ";
+            /*cout << "Digite o seu nome(maximo 10 caracteres): ";
             cin.width(50);
             cin >> player.nome_player;
-            cin.ignore(100,'\n');
+            cin.ignore(100,'\n');*/
             //TENTAR USAR O getline
-            nivelPC=player.DefNivel();
-            coutNivel(nivelPC);
+            DefVersus();
+            if( versus == '2' || versus == '3' ){
+                nivelPC=DefNivel();
+                coutNivel(nivelPC);
+            }
+            if( versus == '1' ) {
+                nivel=DefNivel();
+                coutNivel(nivel);
+            }
             player.DecideJogador();
             player.Jogar();
-            guardaJogador(player.nome_player);
+            if( versus=='1' || versus=='2' ) guardaJogador(nome_win);
             player.ResetJogo();
             Menu();//12-05-21
             break;
         }
         else if(continua==true){
             Jogar();
-            guardaJogador(nome_player);
+            if( versus=='1' || versus=='2' ) guardaJogador(nome_win);
             ResetJogo();
             Menu();//12-05-21
             break;
@@ -187,14 +373,14 @@ void Cgame::Menu(void){
         else
             break;
     }
-    case 2: {
+    case '2': {
         //mostrar o highscore
         Clear();
         mostraTop10(); cout << endl;
         Menu();//12-05-21
         break;
     }
-    case 3: {
+    case '3': {
        Clear();//12-05-21
         break;
     }
@@ -257,7 +443,38 @@ int Cgame::ConfirmarJogada(int coluna){
         return coluna; //fecha o ciclo e continua o jogo
 }
 
-int Cgame::Jogada(){ //faz a jogada ,ou seja, seleciona a coluna onde vai jogar
+int Cgame::JogadaVersus1(){
+    char auxColuna;
+    switch (player) {
+    case 'X':
+        do{
+            cout << "Jogada do " << nome_player << endl;
+            cout << "Selecione um digito entre 1 e 7: " << endl;
+            cin >> auxColuna;
+            auxColuna-='0';
+            if(VerificaJogada(auxColuna)==true)
+                auxColuna=ConfirmarJogada(auxColuna);
+        }while ( auxColuna < 1 || auxColuna > 7 || matrix[0][auxColuna-1]!= ' ' );
+        Joga_check(auxColuna);
+        break;
+    case 'O':
+        do{
+            cout << "Jogada do " << nome_player_versus << endl;
+            cout << "Selecione um digito entre 1 e 7: " << endl;
+            cin >> auxColuna;
+            auxColuna-='0';
+            if(VerificaJogada(auxColuna)==true)
+                auxColuna=ConfirmarJogada(auxColuna);
+        }while ( auxColuna < 1 || auxColuna > 7 || matrix[0][auxColuna-1]!= ' ' );
+        Joga_check(auxColuna);
+        break;
+    default:
+        cout << "Erro! (JogadaVersus2)" << endl;
+        break;
+    }
+}
+
+int Cgame::JogadaVersus2(){
     char auxColuna;
     int auxColunaPC;
     switch (player) {
@@ -274,15 +491,48 @@ int Cgame::Jogada(){ //faz a jogada ,ou seja, seleciona a coluna onde vai jogar
         break;
     case 'O':
         do{
-            cout << "Jogada do computador" << endl;
+            cout << "Jogada do Computador" << endl;
             auxColunaPC = ReturnNivelPC(nivelPC);
         }while ( auxColunaPC < 1 || auxColunaPC > 7 || matrix[0][auxColunaPC-1]!= ' ' );
         Joga_check(auxColunaPC);
         break;
     default:
-        cout << "Erro!" << endl;
+        cout << "Erro! (JogadaVersus2)" << endl;
         break;
     }
+}
+
+int Cgame::JogadaVersus3(){
+    int auxColunaPC;
+    switch (player) {
+    case 'X':
+        do{
+            cout << "Jogada do Computador 1" << endl;
+            auxColunaPC = ReturnNivelPC(nivelPC);
+        }while ( auxColunaPC < 1 || auxColunaPC > 7 || matrix[0][auxColunaPC-1]!= ' ' );
+        Joga_check(auxColunaPC);
+        break;
+    case 'O':
+        do{
+            cout << "Jogada do Computador 2" << endl;
+            auxColunaPC = ReturnNivelPC(nivelPC);
+        }while ( auxColunaPC < 1 || auxColunaPC > 7 || matrix[0][auxColunaPC-1]!= ' ' );
+        Joga_check(auxColunaPC);
+        break;
+    default:
+        cout << "Erro! (JogadaVersus3)" << endl;
+        break;
+    }
+}
+
+int Cgame::Jogada(){ //faz a jogada ,ou seja, seleciona a coluna onde vai jogar
+    int aux;
+    if( versus == '1' ) aux=JogadaVersus1();
+    if( versus == '2' ) aux=JogadaVersus2();
+    if ( versus == '3') aux=JogadaVersus3();
+    if ( versus != '1' && versus != '2' && versus != '3') cout << "ERRO! (Jogada)" << endl;
+
+    return aux;
 }
 
 void Cgame::MudaJogador(){
@@ -292,38 +542,109 @@ void Cgame::MudaJogador(){
         player='X';
 }
 
+bool Cgame::JogarVersus1(int continua){
+    if(continua==1){
+        nJogadas++;//increment
+        if(nJogadas==42){
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "Empate!" << endl;
+            return false;
+        }
+    }
+    else if(continua==0 && nJogadas<=42){
+        if(player=='X'){
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "O/A " << nome_player << " ganhou!" << endl;
+            //nome_win=nome_player;
+            equalArray(nome_player,nome_win, 10);
+            return false;
+        }
+        else{
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "O/A " << nome_player_versus << " ganhou!" << endl;
+            equalArray(nome_player_versus, nome_win, 10);
+            return false;
+        }
+    }
+    else
+        cout << "ERRO!! Jogar Versus1" << endl;
+
+    coutNivel(nivel);
+    cout << "Jogada numero: " << nJogadas << endl << endl;
+}
+
+bool Cgame::JogarVersus2(int continua){
+    if(continua==1){
+        nJogadas++;//increment
+        if(nJogadas==42){
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "Empate!" << endl;
+            return false;
+        }
+    }
+    else if(continua==0 && nJogadas<=42){
+        if(player=='X'){
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "O/A " << nome_player << " ganhou!" << endl;
+            //nome_win=nome_player;
+            equalArray(nome_player,nome_win, 10);
+            return false;
+        }
+        else{
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "O computador ganhou!" << endl;
+            return false;
+        }
+    }
+    else
+        cout << "ERRO!! Jogar Versus2" << endl;
+
+    coutNivel(nivelPC);
+    cout << "Jogada numero: " << nJogadas << endl << endl;
+}
+
+bool Cgame::JogarVersus3(int continua){
+    if(continua==1){
+        nJogadas++;//increment
+        if(nJogadas==42){
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "Empate!" << endl;
+            return false;
+        }
+    }
+    else if(continua==0 && nJogadas<=42){
+        if(player=='X'){
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "O Computador 1 ganhou!" << endl;
+            return false;
+        }
+        else{
+            //cout << "Jogada numero: "<< nJogadas << endl << endl;
+            cout << "O Computador 2 ganhou!" << endl;
+            return false;
+        }
+    }
+    else
+        cout << "ERRO!! Jogar Versus3" << endl;
+
+    coutNivel(nivelPC);
+    cout << "Jogada numero: " << nJogadas << endl << endl;
+}
+
 bool Cgame::Jogar(void){ // fazer os metodos de verificação na jogada
     Desenha();
     int continua=1;// este continua é o da função jogada se for 0 então alguém ganhou se é 1 o jogo continua
     while(nJogadas<42 && continua==1){
         continua=Jogada();
         Desenha();
-        coutNivel(nivelPC);
-        if(continua==1){
-            nJogadas++;//increment
-            if(nJogadas==42){
-                cout << "Jogada numero: "<< nJogadas << endl << endl;
-                cout << "Empate!" << endl;
-                return false;
-            }
-        }
-        else if(continua==0 && nJogadas<=42){
-            if(player=='X'){
-                cout << "Jogada numero: "<< nJogadas << endl << endl;
-                cout << "O/A " << nome_player << " ganhou!" << endl;
-                return false;
-            }
-            else{
-                cout << "Jogada numero: "<< nJogadas << endl << endl;
-                cout << "O computador ganhou!" << endl;
-                return false;
-            }
-        }
-        else
-            cout << "ERRO!!" << endl;
 
-        cout << "Jogada numero: "<< nJogadas << endl << endl;
-        if(continua==0) guardaJogo();
+        if( versus=='1' ) JogarVersus1(continua);
+        if( versus=='2' ) JogarVersus2(continua);
+        if( versus=='3' ) JogarVersus3(continua);
+        if ( versus != '1' && versus != '2' && versus != '3') cout << "ERRO! (Jogar)" << endl;
+
+        //cout << "Jogada numero: "<< nJogadas << endl << endl;
+        guardaJogo();
         MudaJogador();
     }
 }
@@ -484,7 +805,7 @@ void Cgame::guardaJogador(char * playername){
     }
     else{
         ofstream file1("highscore.txt");
-        file1 << setw(10) << playername <<" 1"<<endl;
+        file1 << setw(10) << playername << " 1"<<endl;
         file1.close();
     }
     return;
@@ -496,6 +817,12 @@ int Cgame::compara(const void *a, const void *b) {
     return (bCompara->vitorias-aCompara->vitorias);
 }
 
+void Cgame::equalArray(char tab[], char arr[], int n){
+    for(int i=0; i<n; i++){
+        arr[i]=tab[i];
+    }
+}
+
 void Cgame::guardaJogo(){
     ofstream file("jogo.txt");
     if (!file.is_open()) {
@@ -503,8 +830,12 @@ void Cgame::guardaJogo(){
         << endl;
         return ;
     }
+    file << versus << endl;
     file << nome_player << endl;
-    file << nivelPC << endl;
+    if(versus=='1'){
+        file << nome_player_versus << endl;
+    }
+    if( versus=='2' || versus=='3' ) file << nivelPC << endl;
     file << nJogadas << endl;
     for(int i=0; i<LINHAS; i++){ // linhas
         for(int j=0; j<COLUNAS; j++){ //colunas
@@ -519,19 +850,6 @@ void Cgame::guardaJogo(){
     file.close();
 }
 
-void Cgame::LimpaJogo(){
-    fstream file("jogo.txt", ios::in);
-    if (!file.is_open()) {
-        cout << "Error opening file" << endl;
-        return;
-    }
-    else{
-        file.close();
-        file.open("jogo.txt", ios::out | ios::trunc );
-    }
-    file.close();
-}
-
 bool Cgame::continuaJogo(){
     int jogador, linha, coluna, aux, numX=0, numO=0;
     bool existeJogo=false;
@@ -539,28 +857,28 @@ bool Cgame::continuaJogo(){
     if (!file.is_open()) {
         return false;
     }
-    if(file.peek()!= EOF){
-        file >> nome_player;
-        file >> nivelPC;
-        file >> nJogadas;
-        while(!file.eof()){
-            file>> aux;
-            jogador=(int)aux/100;
-            linha= (aux%100 - aux%10)/10;
-            coluna= aux%10;
-            if(jogador==1){
-                player = 'X';
-                numX++;
-            }
-            else {
-                player = 'O';
-                numO++;
-            }
-            file.get();
-            matrix[linha][coluna]=player;
+    file >> versus;
+    file >> nome_player;
+    if(versus =='1') file >> nome_player_versus;
+    if( versus=='2' || versus=='3' ) file >> nivelPC;
+    file >> nJogadas;
+    while(!file.eof()){
+        file>> aux;
+        jogador=(int)aux/100;
+        linha= (aux%100 - aux%10)/10;
+        coluna= aux%10;
+        if(jogador==1){
+            player = 'X';
+            numX++;
         }
-        existeJogo=true;
+        else {
+            player = 'O';
+            numO++;
+        }
+        file.get();
+        matrix[linha][coluna]=player;
     }
+    existeJogo=true;
     file.close();
 
     //Proxima JOGADOR
@@ -576,10 +894,7 @@ bool Cgame::continuaJogo(){
                 return true;
             }
             else {
-                nJogadas=0;
-                player='X';
                 LimpaTabela();
-                LimpaJogo();
                 return false;;
             }
         }while(c != 's' && c != 'S' && c != 'n' && c != 'N');

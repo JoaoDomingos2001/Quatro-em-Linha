@@ -1,6 +1,5 @@
 #include <iomanip>
 #include <iostream>
-#include <cstring>
 #include "cgame.h"
 
 using namespace std;
